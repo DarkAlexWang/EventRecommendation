@@ -176,7 +176,7 @@ public class MySQLConnection implements DBConnection{
 
 	@Override
 	public void saveItem(Item item) {
-		// TODO Auto-generated method stub
+		
 		if (conn == null) {
 			return;
 		}
@@ -261,14 +261,56 @@ public class MySQLConnection implements DBConnection{
 	}
 
 	@Override
-	public void createUser(String userId, String password, String fistname, String lastname) {
-		// TODO Auto-generated method stub
+	public void createUser(String userId, String password, String firstname, String lastname) {
+		if (conn == null) {
+			return;
+		}
+		
+		try {
+			// SQL injection
+			// Example:
+			// SELECT * FROM users WHERE username = '<username>' AND password = '<password>';
+			//
+			// sql = "SELECT * FROM users WHERE username = '" + username + "'
+			//       AND password = '" + password + "'"
+			//
+			// username: aoweifjoawefijwaoeifj
+			// password: 123456' OR '1' = '1
+			//
+			// SELECT * FROM users WHERE username = 'aoweifjoawefijwaoeifj' AND password = '123456' OR '1' = '1'
+			String sql = "INSERT INTO users(user_id, password, first_name, last_name ) VALUES (?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			stmt.setString(2, password);
+			stmt.setString(3, firstname);
+			stmt.setString(4, lastname);
+			stmt.execute();
+			System.out.println("Import is done successfully.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		
 	}
 
 	@Override
 	public boolean checkUser(String userId) {
-		// TODO Auto-generated method stub
+		if (conn == null) {
+			return false;
+		}
+		try {
+			String sql = "SELECT user_id from users WHERE user_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				System.out.println("User already exists.");
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 

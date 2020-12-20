@@ -12,7 +12,8 @@
 - Backend: use `Java` to process logic request, and some supports are as below:
    * Built with both relational database and NoSQL database (`MySQL` and `MongoDB`) to support data storage from users and items searched in TicketMaster API
    * Design **content-based recommendation algorithm** for event recommendation
-- Deploy website server on `Amazon EC2`: [Event Recommendation System](http://52.24.237.51/EventRecommend/)
+- Deploy website server on `Amazon EC2`: [Event Recommendation
+  System](http://darkalexwang.xyz/EventRecommendation/)
 - Analyze website traffic both online and offline with ELK (`ElasticSearch`, `Logstash` and `Kibana`) and `MapReduce` in MongoDB
 
 ## Infrastructure Design
